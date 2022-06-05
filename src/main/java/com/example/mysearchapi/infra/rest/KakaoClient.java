@@ -1,4 +1,4 @@
-package com.example.mysearchapi.infra;
+package com.example.mysearchapi.infra.rest;
 
 import feign.Headers;
 import feign.Param;

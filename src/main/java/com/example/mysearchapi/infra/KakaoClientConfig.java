@@ -1,10 +1,7 @@
 package com.example.mysearchapi.infra;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.example.mysearchapi.infra.rest.KakaoClient;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import feign.Logger;
 import feign.Request;
 import feign.Retryer;
@@ -16,6 +13,7 @@ import io.github.resilience4j.circuitbreaker.CircuitBreaker;
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
 import io.github.resilience4j.feign.FeignDecorators;
 import io.github.resilience4j.feign.Resilience4jFeign;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -26,7 +24,14 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 @Configuration
 public class KakaoClientConfig {
-    private String kakaoRestClientCB = "kakaoRestClientCB";
+    private final String kakaoRestClientCB = "kakaoRestClientCB";
+    private final ObjectMapper mapper;
+    private final String url;
+
+    public KakaoClientConfig(ObjectMapper objectMapper, @Value("${external.kakao.url}") String url) {
+        this.mapper = objectMapper;
+        this.url = url;
+    }
 
     @Bean
     public KakaoClient kakaoClient() {
@@ -41,11 +46,6 @@ public class KakaoClientConfig {
                 .withCircuitBreaker(circuitBreaker)
                 .build();
 
-        ObjectMapper mapper = (new ObjectMapper())
-                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-                .configure(SerializationFeature.INDENT_OUTPUT, true)
-                .registerModules(new JavaTimeModule(), new Jdk8Module());
-
         return Resilience4jFeign.builder(decorators)
                 .client(new OkHttpClient())
                 .encoder(new JacksonEncoder(mapper))
@@ -54,6 +54,6 @@ public class KakaoClientConfig {
                 .retryer(new Retryer.Default(100, SECONDS.toMillis(1), 2))
                 .logger(new Slf4jLogger(KakaoClient.class))
                 .logLevel(Logger.Level.FULL)
-                .target(KakaoClient.class, "https://dapi.kakao.com");
+                .target(KakaoClient.class, url);
     }
 }

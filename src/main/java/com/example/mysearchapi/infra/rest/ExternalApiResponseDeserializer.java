@@ -1,5 +1,8 @@
-package com.example.mysearchapi.infra;
+package com.example.mysearchapi.infra.rest;
 
+import com.example.mysearchapi.infra.rest.ExternalApiResponse;
+import com.example.mysearchapi.infra.rest.KakaoRestApiResponse;
+import com.example.mysearchapi.infra.rest.NaverRestApiResponse;
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -9,7 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 
-public class ApiResponseDeserializer extends JsonDeserializer<ExternalApiResponse> {
+public class ExternalApiResponseDeserializer extends JsonDeserializer<ExternalApiResponse> {
 
     @Override
     public ExternalApiResponse deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JacksonException {

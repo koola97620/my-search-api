@@ -14,11 +14,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 class PlaceExternalSearchServiceTest {
 
     @Autowired
-    private PlaceSearchService placeSearchService;
+    private PlaceQueryService placeQueryService;
 
     @Test
     void test() {
-        List<ResponseItem> places = placeSearchService.getPlace("인덕원 곱창");
+        List<ResponseItem> places = placeQueryService.getPlace("인덕원 곱창");
+        System.out.println(places);
         assertThat(places.isEmpty()).isFalse();
     }
 

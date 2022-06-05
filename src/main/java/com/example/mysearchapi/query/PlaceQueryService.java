@@ -5,13 +5,14 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
-public class PlaceSearchService {
+public class PlaceQueryService {
 
-    private final List<ExternalSearchService> externalSearchServiceList;
+    private final Set<ExternalSearchService> externalSearchServiceList;
 
-    public PlaceSearchService(List<ExternalSearchService> externalSearchServiceList) {
+    public PlaceQueryService(Set<ExternalSearchService> externalSearchServiceList) {
         this.externalSearchServiceList = externalSearchServiceList;
     }
 

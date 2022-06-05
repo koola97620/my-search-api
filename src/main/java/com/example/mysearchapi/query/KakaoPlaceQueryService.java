@@ -21,7 +21,7 @@ public class KakaoPlaceQueryService implements ExternalSearchService {
     }
 
     public ExternalApiResponse get(String keyword) {
-        KakaoSearchRequest req = KakaoSearchRequest.builder().query(keyword).size(10).build();
+        KakaoSearchRequest req = KakaoSearchRequest.builder().query(keyword).size(5).build();
         return kakaoClient.getPlaces(properties.getKey(), req);
     }
 

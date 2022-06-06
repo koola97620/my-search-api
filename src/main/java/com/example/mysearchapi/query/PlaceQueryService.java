@@ -1,6 +1,7 @@
 package com.example.mysearchapi.query;
 
-import com.example.mysearchapi.infra.ResponseItem;
+import com.example.mysearchapi.domain.Place;
+import com.example.mysearchapi.domain.Places;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,11 +17,13 @@ public class PlaceQueryService {
         this.externalSearchServiceList = externalSearchServiceList;
     }
 
-    public List<ResponseItem> getPlace(String keyword) {
-        List<ResponseItem> responses = new ArrayList<>();
+    public Places getPlace(String keyword) {
+        List<Place> responses = new ArrayList<>();
         for (ExternalSearchService service : externalSearchServiceList) {
             responses.addAll(service.get(keyword).getApiResults());
         }
-        return responses;
+        return Places.builder()
+                .placeList(responses)
+                .build();
     }
 }

@@ -1,6 +1,7 @@
 package com.example.mysearchapi.infra.rest;
 
-import com.example.mysearchapi.infra.ResponseItem;
+import com.example.mysearchapi.domain.Place;
+import com.example.mysearchapi.domain.SearchApiType;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.util.List;
@@ -11,13 +12,18 @@ import java.util.stream.Collectors;
 public record KakaoRestApiResponse(List<KakaoRestApiResponseItem> documents) implements ExternalApiResponse {
 
     @Override
-    public List<ResponseItem> getApiResults() {
+    public List<Place> getApiResults() {
         return documents.stream()
-                .map(document -> ResponseItem.builder()
-                        .type("kakao")
-                        .placeName(document.placeName())
-                        .address(document.addressName())
+                .map(document -> Place.builder()
+                        .type(SearchApiType.KAKAO)
+                        .placeName(convert(document.placeName()))
+                        //.address(document.addressName())
                         .build())
                 .collect(Collectors.toList());
+    }
+
+    private String convert(String placeName) {
+        return placeName.trim()
+                .replace(" ", "");
     }
 }

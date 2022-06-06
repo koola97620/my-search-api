@@ -1,10 +1,4 @@
-external:
-  kakao:
-    name: "kakao"
-    url: "https://dapi.kakao.com"
-    key: "KakaoAK ce6205bab96ed93dc54f763fe29c8c99"
-  naver:
-    name: "naver"
-    url: "https://openapi.naver.com"
-    client-id: "eyb_oh093LKBMiuojnVg"
-    client-secret: "9eyHXV1IDi"
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create
